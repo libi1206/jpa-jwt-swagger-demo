@@ -99,8 +99,48 @@
    * `unique`表示是否唯一，`colunmnDefinition`可以添加相关的相关的信息，相当于自己写建表语句
    * `colunmnDefinition`一定要在语句上加上括号，否则会出现不可预料的问题
 
-   **这时启动这个项目，就可以吧表建好。**当我们看见下面的日志的时候，就说明表已经建好了
+   **这时启动这个项目，就可以把表建好。**当我们看见下面的日志的时候，就说明表已经建好了
 
    >Hibernate: drop table if exists jpa_user
    >Hibernate: create table jpa_user (user_id varchar(255) comment '用户的ID' not null, create_time bigint, neck_name varchar(255) not null comment '昵称', password char(60) not null comment '用户的密码', phone varchar(50) not null comment '用户的手机号', user_name varchar(255) not null comment '用户名', primary key (user_id)) engine=InnoDB
 
+4. **创建一个持久层服务**
+
+   在JPA中，实现持久层任然可以像Mybatis一般使用接口进行来创建持久层。业务的持久册代码里只需要继承 `org.springframework.data.repository.Repository<T, ID>`接口或者它的子接口就可以了。其中 `T` 是数据库实体类，`ID` 是数据库实体类的主键。
+
+   更方便的是，我们只需要继承 `org.springframework.data.jpa.repository.JpaRepository<T, ID>`接口就可以实现基础的增删改查的功能。在`JpaRepository`里就有增删改查的方法定义，我想大家看见方法的名字就应该都可以知道它的作用吧
+
+   **所以，我们写出的DAO层代码如下，**非常寒酸
+
+   ```java
+   public interface UserDao extends JpaRepository<UserEntity,Long> {
+   }
+   ```
+
+   测试代码如下
+
+   ```java
+   @Autowired
+   private UserDao userDao;
+   
+   @Test
+   public void contextLoads() {
+       UserEntity userEntity = new UserEntity();
+       userEntity.setUserId(1L);
+       userEntity.setUserName("libi1206");
+       userEntity.setPassword("3306");
+       userEntity.setCreateTime(System.currentTimeMillis());
+       userEntity.setNeckName("团长大人");
+       userEntity.setPhone("133333333333");
+       userDao.save(userEntity);
+   }
+   ```
+
+   这时查询数据库，就会发现已经出现了相关数据行
+
+   > +---------+---------------+-----------+----------+--------------+-----------+
+   > | user_id | create_time   | neck_name | password | phone        | user_name |
+   > +---------+---------------+-----------+----------+--------------+-----------+
+   > | 1       | 1561900906983 | ????      | 3306     | 133333333333 | libi1206  |
+   > +---------+---------------+-----------+----------+--------------+-----------+
+   > 1 row in set (0.00 sec)
