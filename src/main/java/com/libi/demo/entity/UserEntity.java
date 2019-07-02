@@ -1,10 +1,7 @@
 package com.libi.demo.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +19,7 @@ import javax.persistence.Table;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class UserEntity {
 
     @Id
@@ -42,4 +40,7 @@ public class UserEntity {
 
     @Column(name = "create_time")
     private Long createTime;
+
+    @Column
+    private String ext;
 }

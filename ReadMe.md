@@ -53,7 +53,7 @@
    * **spring.jpa.show-sql**表示是否在日志里打印实际运行的sql代码
    * **spring.jpa.hibernate.ddl-auto**表示运行时对数据库的改动逻辑，
      * **create**表示会删除数据库的所有表并且再次重建实体表。这个参数很危险，因为他会把对应的表删除掉然后重建。所以千万不要在生成环境中使用。只有在测试环境中，一开始初始化数据库结构的时候才能使用一次。
-     * **update**这个参数表示会进行更新而不会删除表，所以在在非第一次运行时需要换成这个参数
+     * **update**这个参数表示会进行更新而不会删除表，所以在在非第一次运行时需要换成这个参数。使用这个参数的时候，如果有增加的字端，那么JPA会增加这个字段。但是在删掉这个字段的时候JPA就不会对数据库作出改动。
 
 3. **创建一个实体类**
 
@@ -144,3 +144,63 @@
    > | 1       | 1561900906983 | ????      | 3306     | 133333333333 | libi1206  |
    > +---------+---------------+-----------+----------+--------------+-----------+
    > 1 row in set (0.00 sec)
+
+   **实现分页查询也很简单`JpaRepository`接口已经帮我们想好了简单分页的接口，**
+
+   
+
+
+
+4. **扩展查询**
+
+当然，JAP支持自己手写代码进行数据的增删改查。
+
+* 根据某个属性进行查询
+
+  如果像针对某个表进行某个或者某几个字端进行查询，JPA也帮你封装好了，你甚至可以不用写任何SQL或者HQL语句，只需要提供一个DAO层的方法名，JPA就会帮你完成查询。我写的一个例子如下
+
+  ```java
+  public interface UserDao extends JpaRepository<UserEntity,Long> {
+      //通过用户名查找用户
+      UserEntity findByUserName(String userName);
+  }
+  ```
+
+  这样就可以开心的使用这个方法了
+
+* 自定义查询
+
+  如果简单的按字段查询不能满足要求，还可以使用`org.springframework.data.jpa.repository.Query`来自己写SQL语句或者PQL来自定义查询。`nativeQuery`表示是否开启SQL语句查询。
+
+  ```java
+  //使用本地SQL查询来自定义数据库操作
+  @Query(value = "select * from jpa_user where user_name = :user_name", nativeQuery = true)
+  UserEntity findByUserNameMyself(@Param("user_name") String userName);
+  ```
+
+* 联合主键（**待实践**）
+
+  这时就需要把两个以上的主键放进一个类里，需要实现序列化的接口
+
+  ```Java
+  public class RoleUserId implements Serializable {
+      private Long roleId;
+      private Long userId;
+  }
+  ```
+
+  现在实体累如下
+
+  ```java
+  @Entity
+  @Getter
+  @Setter
+  @IdClass(RoleUserId.class)
+  @Table(name = "AUTH_ROLE_USER")
+  public class RoleUserEntity  {
+      @Id
+      private Long roleId;
+      @Id
+      private Long userId;
+  }
+  ```
