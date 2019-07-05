@@ -2,6 +2,8 @@ package com.libi.demo.dao;
 
 import com.libi.demo.entity.UserEntity;
 import org.apache.catalina.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +21,7 @@ public interface UserDao extends JpaRepository<UserEntity,Long> {
     @Query(value = "select * from jpa_user where user_name = :user_name", nativeQuery = true)
     UserEntity findByUserNameMyself(@Param("user_name") String userName);
 
+    //使用本地查询再自己分页
+    @Query(value = "select * from jpa_user where ext = :ext", nativeQuery = true)
+    Page<UserEntity> findAllByMySelf(Pageable pageable, @Param("ext") String ext);
 }

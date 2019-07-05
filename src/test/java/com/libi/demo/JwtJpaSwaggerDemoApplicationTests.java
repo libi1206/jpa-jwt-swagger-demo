@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -29,11 +31,37 @@ public class JwtJpaSwaggerDemoApplicationTests {
     }
 
     @Test
-    //TODO 分页还需要研究一下
+    /**
+     * 官方定义的分页查询，只能进行单表查询
+     */
     public void pageTest () {
-        //第1页，每页10条数据
-        List<UserEntity> userPage = userDao.findAll();
-        System.out.println(userPage.get(0));
+        //第1页，每页2条数据
+        Page<UserEntity> page = userDao.findAll(PageRequest.of(1, 2));
+        System.out.println("总条数："+page.getTotalElements());
+        System.out.println("总页数："+page.getTotalPages());
+        System.out.println("当前页码："+page.getNumber());
+        System.out.println("是否有下一页："+page.hasNext());
+        List<UserEntity> content = page.getContent();
+        //获得数据
+        System.out.println(content.size());
+        System.out.println(userDao.findAll());
+    }
+
+    /**
+     * 自己写并且分页
+     */
+    @Test
+    public void pageSelfTest() {
+        //第1页，每页2条数据
+        Page<UserEntity> page = userDao.findAllByMySelf(PageRequest.of(1, 2),"1");
+        System.out.println("总条数："+page.getTotalElements());
+        System.out.println("总页数："+page.getTotalPages());
+        System.out.println("当前页码："+page.getNumber());
+        System.out.println("是否有下一页："+page.hasNext());
+        List<UserEntity> content = page.getContent();
+        //获得数据
+        System.out.println(content.size());
+        System.out.println(userDao.findAll());
     }
 
     @Test
