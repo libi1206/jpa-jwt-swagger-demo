@@ -21,12 +21,12 @@ public class JwtJpaSwaggerDemoApplicationTests {
     @Test
     public void contextLoads() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(1L);
-        userEntity.setUserName("libi1206");
-        userEntity.setPassword("3306");
+        userEntity.setUserId(100L);
+        userEntity.setUserName("libi120677");
+        userEntity.setPassword("123444");
         userEntity.setCreateTime(System.currentTimeMillis());
-        userEntity.setNeckName("libi3302");
-        userEntity.setPhone("133333333333");
+        userEntity.setNeckName("团长大人");
+        userEntity.setPhone("133333333334");
         userDao.save(userEntity);
     }
 
@@ -44,7 +44,7 @@ public class JwtJpaSwaggerDemoApplicationTests {
         List<UserEntity> content = page.getContent();
         //获得数据
         System.out.println(content.size());
-        System.out.println(userDao.findAll());
+        System.out.println(content);
     }
 
     /**

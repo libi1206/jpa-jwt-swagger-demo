@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -23,7 +24,7 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation("用户注册") //使用这个注解告诉Swagger这个方法是一个需要关注的接口
-    @RequestMapping("/register")
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
     public BaseResponse register(
             @ApiParam  UserRegisterVO userRegisterVO //使用这个注解告诉swagger这个是接口的参数需要注意
     ) {

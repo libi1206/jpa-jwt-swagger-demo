@@ -38,7 +38,7 @@
    spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
    spring.datasource.username=root
    spring.datasource.password=Libi.981206
-   spring.datasource.url=jdbc:mysql://192.168.3.203:3306/jpa?charset=utf8mb4&useSSL=false
+   spring.datasource.url=jdbc:mysql://192.168.3.203:3306/jpa?characterEncoding=utf-8&useSSL=false
    
    #连接池（Hikari）的相关配置单
    spring.datasource.hikari.maximum-pool-size=20
@@ -145,8 +145,23 @@
    > +---------+---------------+-----------+----------+--------------+-----------+
    > 1 row in set (0.00 sec)
 
-   **实现分页查询也很简单`JpaRepository`接口已经帮我们想好了简单分页的接口，**
+   **实现分页查询也很简单`JpaRepository`接口已经帮我们想好了简单分页的接口，**调用JPA里帮你定义好的`findAll`接口，传入分页信息就可以了。调用方法如下
 
+   ```java
+   //第1页，每页2条数据
+   Page<UserEntity> page = userDao.findAll(PageRequest.of(1, 2));
+   System.out.println("总条数："+page.getTotalElements());
+   System.out.println("总页数："+page.getTotalPages());
+   System.out.println("当前页码："+page.getNumber());
+   System.out.println("是否有下一页："+page.hasNext());
+   List<UserEntity> content = page.getContent();
+   //获得数据
+   System.out.println(content.size());
+   System.out.println(content);
+   ```
+   
+   
+   
    
 
 
@@ -178,6 +193,16 @@
   UserEntity findByUserNameMyself(@Param("user_name") String userName);
   ```
 
+* 自定义带分页的查询
+
+  想要自定义带分页的查询，只需要仿照提供的`findAll`方法，在自己的Dao层里添加一个需要传入`Pageable`的方法就好了
+
+  ```java
+  //使用本地查询再自己分页
+  @Query(value = "select * from jpa_user where ext = :ext", nativeQuery = true)
+  Page<UserEntity> findAllByMySelf(Pageable pageable, @Param("ext") String ext);
+  ```
+  
 * 联合主键（**待实践**）
 
   这时就需要把两个以上的主键放进一个类里，需要实现序列化的接口
@@ -204,3 +229,4 @@
       private Long userId;
   }
   ```
+
