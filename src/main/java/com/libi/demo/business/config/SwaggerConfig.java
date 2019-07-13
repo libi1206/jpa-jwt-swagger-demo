@@ -1,4 +1,4 @@
-package com.libi.demo.config;
+package com.libi.demo.business.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +33,7 @@ public class SwaggerConfig {
         List<Parameter> pars = new ArrayList<>();
         //设置全局的token变量，在每一个接口里都会实现
         tokenPar
-                .name("x-access-token")
+                .name("token")
                 .description("令牌")
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")

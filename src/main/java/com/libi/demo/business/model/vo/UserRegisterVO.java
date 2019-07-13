@@ -1,4 +1,4 @@
-package com.libi.demo.model.vo;
+package com.libi.demo.business.model.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

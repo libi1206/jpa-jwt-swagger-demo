@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = JwtJpaSwaggerDemoApplication.class)
@@ -21,12 +22,12 @@ public class JwtJpaSwaggerDemoApplicationTests {
     @Test
     public void contextLoads() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(100L);
-        userEntity.setUserName("libi120677");
-        userEntity.setPassword("123444");
+        userEntity.setUserId(UUID.randomUUID().toString());
+        userEntity.setUserName("libi1201312234677");
+        userEntity.setPassword("123423444");
         userEntity.setCreateTime(System.currentTimeMillis());
-        userEntity.setNeckName("团长大人");
-        userEntity.setPhone("133333333334");
+        userEntity.setNeckName("团长大人234");
+        userEntity.setPhone("133323433333323434");
         userDao.save(userEntity);
     }
 

@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
  * @version :1.0
  * @date :2019-06-30 21:07
  */
-public interface UserDao extends JpaRepository<UserEntity,Long> {
+public interface UserDao extends JpaRepository<UserEntity,String> {
     //通过用户名查找用户
     UserEntity findByUserName(String userName);
 

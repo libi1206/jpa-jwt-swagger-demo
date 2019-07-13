@@ -1,6 +1,6 @@
 package com.libi.demo.service.impl;
 
-import com.libi.demo.model.JwtTokenInfo;
+import com.libi.demo.business.model.JwtTokenInfo;
 import com.libi.demo.service.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -58,7 +58,7 @@ public class TokenServiceImpl implements TokenService {
         JwtTokenInfo jwtTokenInfo = new JwtTokenInfo();
         jwtTokenInfo.setUserName(claims.get("userName",String.class));
         jwtTokenInfo.setPhone(claims.get("phone",String.class));
-        jwtTokenInfo.setUserId(claims.get("userId",Long.class));
+        jwtTokenInfo.setUserId(claims.get("userId",String.class));
         return jwtTokenInfo;
     }
 

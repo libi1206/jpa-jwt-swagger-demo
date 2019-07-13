@@ -1,6 +1,6 @@
-package com.libi.demo.model;
+package com.libi.demo.business.model;
 
-import com.libi.demo.constant.Code;
+import com.libi.demo.business.constant.Code;
 
 /**
  * @author :Libi

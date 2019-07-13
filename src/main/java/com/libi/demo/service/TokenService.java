@@ -1,6 +1,6 @@
 package com.libi.demo.service;
 
-import com.libi.demo.model.JwtTokenInfo;
+import com.libi.demo.business.model.JwtTokenInfo;
 
 /**
  * @author :Libi

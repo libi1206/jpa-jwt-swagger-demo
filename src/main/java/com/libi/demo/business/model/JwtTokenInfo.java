@@ -1,4 +1,4 @@
-package com.libi.demo.model;
+package com.libi.demo.business.model;
 
 import lombok.Data;
 import lombok.ToString;
@@ -12,7 +12,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class JwtTokenInfo {
-    private Long userId;
+    private String userId;
     private String userName;
     private String phone;
 }

@@ -1,4 +1,4 @@
-package com.libi.demo.model;
+package com.libi.demo.business.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

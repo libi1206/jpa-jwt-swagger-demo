@@ -24,7 +24,7 @@ public class UserEntity {
 
     @Id
     @Column(name = "user_id", unique = true, columnDefinition = ("varchar(255) comment '用户的ID'"))
-    private Long userId;
+    private String userId;
 
     @Column(name = "user_name", unique = true, columnDefinition = ("varchar(255) not null comment '用户名'"))
     private String userName;

@@ -1,7 +1,6 @@
-package com.libi.demo.constant;
+package com.libi.demo.business.constant;
 
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author :Libi
@@ -12,6 +11,10 @@ import lombok.Setter;
 @Getter
 public enum Code {
     SUSSESS(0, "成功"),
+
+    LOGIN_ERROR(100, "用户名或密码有误"),
+
+    TOKEN_ERROR(999, "Token异常，请重新申请"),
 
     PARAM_ERROR(1001, "参数不足或有误"),
 
