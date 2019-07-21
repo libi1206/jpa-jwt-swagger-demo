@@ -62,8 +62,7 @@
    ```java
    @Entity
    @Table(name = "jpa_user")
-   @Getter
-   @Setter
+   @Data
    @NoArgsConstructor
    @AllArgsConstructor
    public class UserEntity {
@@ -88,22 +87,22 @@
        private Long createTime;
    }
    ```
-
-   需要注意的点如下
-
-   * `@Entity`,`@Colunm`,`@Id`,`@Table`这些注解都是javax.persistence包下的，而不是hibernate相关的包
+   
+需要注意的点如下
+   
+* `@Entity`,`@Colunm`,`@Id`,`@Table`这些注解都是javax.persistence包下的，而不是hibernate相关的包
    * `@Entity` 是一个必选的注解，声明这个类对应了一个数据库表。
    * `@Table(name = "user_name")` 是一个可选的注解。声明了数据库实体对应的表信息。包括表名称、索引信息等。这里声明这个实体类对应的表名是 AUTH_USER。如果没有指定，则表名和实体的名称保持一致。
    * `@Id` 注解声明了实体唯一标识对应的属性。
    * `@Column(length = 32)` 用来声明实体属性的表字段的定义。默认的实体每个属性都对应了表的一个字段。字段的名称默认和属性名称保持一致（并不一定相等）。字段的类型根据实体属性类型自动推断。这里主要是声明了字符字段的长度。如果不这么声明，则系统会采用 255 作为该字段的长度
    * `unique`表示是否唯一，`colunmnDefinition`可以添加相关的相关的信息，相当于自己写建表语句
    * `colunmnDefinition`一定要在语句上加上括号，否则会出现不可预料的问题
-
-   **这时启动这个项目，就可以把表建好。**当我们看见下面的日志的时候，就说明表已经建好了
-
-   >Hibernate: drop table if exists jpa_user
+   
+**这时启动这个项目，就可以把表建好。**当我们看见下面的日志的时候，就说明表已经建好了
+   
+>Hibernate: drop table if exists jpa_user
    >Hibernate: create table jpa_user (user_id varchar(255) comment '用户的ID' not null, create_time bigint, neck_name varchar(255) not null comment '昵称', password char(60) not null comment '用户的密码', phone varchar(50) not null comment '用户的手机号', user_name varchar(255) not null comment '用户名', primary key (user_id)) engine=InnoDB
-
+   
 4. **创建一个持久层服务**
 
    在JPA中，实现持久层任然可以像Mybatis一般使用接口进行来创建持久层。业务的持久册代码里只需要继承 `org.springframework.data.repository.Repository<T, ID>`接口或者它的子接口就可以了。其中 `T` 是数据库实体类，`ID` 是数据库实体类的主键。
